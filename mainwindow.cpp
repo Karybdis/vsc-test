@@ -96,6 +96,6 @@ void MainWindow::connectport()  //连接串口
 void MainWindow::receive()
 {
     QByteArray message=serial->readAll();
-    serial->write(message.toHex(),message.length());
+    serial->write(message);
 }
 
