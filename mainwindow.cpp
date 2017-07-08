@@ -96,6 +96,6 @@ void MainWindow::connectport()  //连接串口
 void MainWindow::receive()
 {
     QByteArray message=serial->readAll();
-    serial->write(message);
+    serial->write(QString(message).toUtf8());
 }
 
