@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include<iostream>
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -96,6 +98,17 @@ void MainWindow::connectport()  //连接串口
 void MainWindow::receive()
 {
     QByteArray message=serial->readAll();
-    serial->write(QString(message).toUtf8());
+    QByteArray mes;
+    QString str;
+    int i;
+    if (message[0]=='1')
+    {
+        for ( i=0;i<message[1]-48;i++)
+           mes[i]=message[i+2];
+        str.append(QString(mes));
+        serial->write(str.toUtf8());
+    }
+
+
 }
 
