@@ -101,14 +101,23 @@ void MainWindow::receive()
     QByteArray mes;
     QString str;
     int i;
-    if (message[0]=='1')
+    //以下简单的通信协议
+    if (message[0]=='1')  //判定是否该下位机地址位
     {
-        for ( i=0;i<message[1]-48;i++)
-           mes[i]=message[i+2];
-        str.append(QString(mes));
-        serial->write(str.toUtf8());
+        if (message[1]=='0')  //命令是0的情况,顺着传回来
+        {
+            for (i=0;i<message[2]-48;i++)
+                mes[i]=message[i+3];
+            str.append(QString(mes));
+            serial->write(str.toUtf8());
+        }
+        else if (message[1]=='1') //命令是1的情况，倒着传回来
+        {
+            for (i=message[2]-48;i>0;i--)
+                mes[message[2]-48-i]=message[i+2];
+            str.append(QString(mes));
+            serial->write(str.toUtf8());
+        }
     }
-
-
 }
 
